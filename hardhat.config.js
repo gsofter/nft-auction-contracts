@@ -4,12 +4,7 @@ require("solidity-coverage");
 require("@nomiclabs/hardhat-etherscan");
 require("hardhat-deploy");
 require("@nomiclabs/hardhat-ethers");
-const {
-  rinkebyPrivateKey,
-  alchemyUrl,
-  etherscanApiKey,
-  coinmarketCapKey,
-} = require("./secretsManager.example.js");
+require("dotenv").config();
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -21,7 +16,9 @@ task("accounts", "Prints the list of accounts", async () => {
   }
 });
 
-const RINKEBY_PRIVATE_KEY = rinkebyPrivateKey;
+const RINKEBY_PRIVATE_KEY = process.env.RINKEBY_PRIVATE_KEY;
+const etherscanApiKey = process.env.ETHERSCAN_API_KEY;
+const coinmarketCapKey = process.env.COINMARKETCAP_API_KEY;
 // You need to export an object to set up your config
 // Go to https://hardhat.org/config/ to learn more
 
@@ -49,15 +46,13 @@ module.exports = {
   },
 
   //uncomment this and run: yarn deploy-rinkeby
-  // networks: {
-  //   rinkeby: {
-  //     url: alchemyUrl,
-  //     accounts: [`0x${RINKEBY_PRIVATE_KEY}`],
-  //   },
-  // },
-  // etherscan: {
-  //   // Your API key for Etherscan
-  //   // Obtain one at https://etherscan.io/
-  //   apiKey: etherscanApiKey,
-  // },
+  networks: {
+    rinkeby: {
+      url: alchemyUrl,
+      accounts: [`0x${RINKEBY_PRIVATE_KEY}`],
+    },
+  },
+  etherscan: {
+    apiKey: etherscanApiKey,
+  },
 };
